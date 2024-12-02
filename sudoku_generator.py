@@ -250,11 +250,13 @@ def generate_sudoku(size, removed):
     return board
 
 class Cell:
-   def __init__(self, value, row, col):
+   def __init__(self, value, row, col, screen):
        self.value = value
        self.row = row
        self.col = col
        self.sketched_value = None
+       self.screen = screen
+       self.selected = False
 
    def set_cell_value(self, value):
        self.value = value
@@ -263,7 +265,14 @@ class Cell:
        self.sketched_value = value
 
    def draw(self):
-       pass
+       if self.selected:
+           color = "black"
+       else:
+           color = "red"
+       pygame.draw.line(self.screen, self.color, (self.row * 81, self.col * 81), ((self.row + 1) * 81 + 1, self.col * 81 + 1))
+       pygame.draw.line(self.screen, self.color, (self.row * 81, self.col * 81), (self.row * 81 + 1, (self.col + 1) * 81 + 1))
+       pygame.draw.line(self.screen, self.color, (self.row * 81, (self.col + 1) * 81), ((self.row + 1) * 81 + 1, (self.col + 1) * 81 + 1))
+
 
 class Board:
    def __init__(self, width, height, difficulty):

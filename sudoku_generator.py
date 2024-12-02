@@ -46,8 +46,19 @@ class SudokuGenerator:
 	Return: None
     '''
     def print_board(self):
-        pass
+        for i, row in enumerate(self.board):
+            if i != 0: #no separator for first row
+                if i % 3 == 0:
+                    print("-" * 23) #draw line separator
 
+            row_r = ""
+            for j, number in enumerate(row):
+                if j != 0: #no separator for first column
+                    if j % 3 == 0:
+                        row_r += " |" #draw vertical separator with space
+                    else:
+                        row_r += f" {number}" #draw number with space
+                print(row_r)
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
     If num is already in the specified row, return False. Otherwise, return True

@@ -58,7 +58,7 @@ class SudokuGenerator:
                         row_r += " |" #draw vertical separator with space
                     else:
                         row_r += f" {number}" #draw number with space
-                print(row_r)
+            print(row_r)
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
     If num is already in the specified row, return False. Otherwise, return True

@@ -105,7 +105,7 @@ class SudokuGenerator:
     def valid_in_box(self, row_start, col_start, num):
         for r in range(3):
             for c in range(3):
-                if self.board[int(r + row_start)][int(c + row_start)] == num:
+                if self.board[int(r + row_start)][int(c + col_start)] == num:
                     return False
         return True
     

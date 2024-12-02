@@ -219,8 +219,8 @@ class SudokuGenerator:
     def remove_cells(self):
         x = 0
         while x < self.removed_cells:
-            random1 = random.randint(0, 10)
-            random2 = random.randint(0, 2)
+            random1 = random.randint(0, 8)
+            random2 = random.randint(0, 8)
             if self.board[random1][random2] != "_":
                 self.board[random1][random2] = "_"
                 x += 1

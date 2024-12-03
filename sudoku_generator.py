@@ -269,10 +269,10 @@ class Cell:
            color = "red"
        else:
            color = "black"
-	pygame.draw.rect(self.screen, color, pygame.Rect(self.row * 81, self.col * 81, (self.row + 1) * 81, (self.col + 1) * 81), 1)
-	font = pygame.font.Font("Times New Roman", 48)
-	text = font.render(self.value, True, "black")
-        self.screen.blit(text, (self.row * 81, self.col * 81))
+       pygame.draw.rect(self.screen, color, pygame.Rect(self.row * 81, self.col * 81, (self.row + 1) * 81, (self.col + 1) * 81), 1)
+       font = pygame.font.Font("Times New Roman", 48)
+       text = font.render(self.value, True, "black")
+       self.screen.blit(text, (self.row * 81, self.col * 81))
 
    def __getitem__(self):
        return self

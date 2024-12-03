@@ -83,7 +83,7 @@ def game_won_page(screen):
         screen.fill(WHITE)
         #draw exit button
         pygame.draw.rect(screen, ORANGE, exit_button)
-        # draw text
+        #draw text
         screen.blit(won_text, (180, 260))
         #center exit text
         x_exit_text = exit_button.x + (exit_button.width - exit_text.get_width()) // 2
@@ -96,7 +96,7 @@ def game_won_page(screen):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if exit_button.collidepoint(event.pos):  # Check if the button was clicked
+                if exit_button.collidepoint(event.pos):  #check if the button was clicked
                     pygame.quit()
                     sys.exit()
         pygame.display.update()

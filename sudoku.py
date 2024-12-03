@@ -3,15 +3,15 @@ import sys
 pygame.font.init()
 
 #set colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-ORANGE = (255, 95, 0)
+white = (255, 255, 255)
+black = (0, 0, 0)
+blue = (0, 0, 255)
+orange = (255, 95, 0)
 
 #set size of the page
-WIDTH = 810
-HEIGHT = 972
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen_width = 810
+screen_height = 972
+screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Sudoku")
 
 def start_page(screen):
@@ -21,26 +21,26 @@ def start_page(screen):
     hard_button = pygame.Rect(520, 500, 200, 70)
     #draw text of buttons
     font = pygame.font.SysFont(None, 50)
-    easy_text = font.render("EASY", True, WHITE)
-    medium_text = font.render("MEDIUM", True, WHITE)
-    hard_text = font.render("HARD", True, WHITE)
+    easy_text = font.render("EASY", True, white)
+    medium_text = font.render("MEDIUM", True, white)
+    hard_text = font.render("HARD", True, white)
 
     welcome_font = pygame.font.Font(None, 80)
-    welcome_text = welcome_font.render("Welcome to Sudoku", True, BLACK)
+    welcome_text = welcome_font.render("Welcome to Sudoku", True, black)
     selection_font = pygame.font.Font(None, 65)
-    selection_text = selection_font.render("Select Game Mode:", True, BLACK)
+    selection_text = selection_font.render("Select Game Mode:", True, black)
 
 
     while True:
         #set screen color"
-        screen.fill(WHITE)
+        screen.fill(white)
         #draw text
         screen.blit(welcome_text, (140, 150))
         screen.blit(selection_text, (190, 300))
         #draw buttons
-        pygame.draw.rect(screen, BLUE, easy_button)
-        pygame.draw.rect(screen, ORANGE, medium_button)
-        pygame.draw.rect(screen, BLUE, hard_button)
+        pygame.draw.rect(screen, blue, easy_button)
+        pygame.draw.rect(screen, orange, medium_button)
+        pygame.draw.rect(screen, blue, hard_button)
         #center text
         x_easy_text = easy_button.x + (easy_button.width - easy_text.get_width()) // 2
         y_easy_text = easy_button.y + (easy_button.height - easy_text.get_height()) // 2
@@ -74,15 +74,15 @@ def game_won_page(screen):
     exit_button = pygame.Rect(300, 500, 210, 80)
     # draw text of buttons
     exit_font = pygame.font.SysFont(None, 50)
-    exit_text = exit_font.render("EXIT", True, WHITE)
+    exit_text = exit_font.render("EXIT", True, white)
     won_font = pygame.font.Font(None, 120)
-    won_text = won_font.render("Game Won!", True, BLACK)
+    won_text = won_font.render("Game Won!", True, black)
 
     while True:
         #set screen color
-        screen.fill(WHITE)
+        screen.fill(white)
         #draw exit button
-        pygame.draw.rect(screen, ORANGE, exit_button)
+        pygame.draw.rect(screen, orange, exit_button)
         # draw text
         screen.blit(won_text, (180, 260))
         #center exit text
@@ -106,15 +106,15 @@ def game_over_page(screen):
     restart_button = pygame.Rect(300, 500, 210, 80)
     # draw text of buttons
     restart_font = pygame.font.SysFont(None, 50)
-    restart_text = restart_font.render("RESTART", True, WHITE)
+    restart_text = restart_font.render("RESTART", True, white)
     game_over_font = pygame.font.Font(None, 120)
-    game_over_text = game_over_font.render("Game Over :(", True, BLACK)
+    game_over_text = game_over_font.render("Game Over :(", True, black)
 
     while True:
         #set screen color
-        screen.fill(WHITE)
+        screen.fill(white)
         #draw exit button
-        pygame.draw.rect(screen, ORANGE, restart_button)
+        pygame.draw.rect(screen, orange, restart_button)
         # draw text
         screen.blit(game_over_text, (145, 260))
         #center exit text

@@ -285,6 +285,7 @@ class Board(SudokuGenerator):
        else:
            removed_cells = 50
        super().__init__(9, removed_cells)
+       self.base_board = self.board
        self.screen = pygame.display.set_mode((self.width, self.height))
        self.screen.fill("blue")
        self.cells = []
@@ -328,7 +329,10 @@ class Board(SudokuGenerator):
                    self.cells[r][c].set_cell_value(self.cells[r][c].value)
 
    def reset_to_original(self):
-    pass
+       for r in range(9):
+           for c in range(9):
+               self.cells[r][c] = self.base_board[r][c]
+               self.board[r][c] = self.base_board[r][c]
 
    def is_full(self):
        for r in range(9):

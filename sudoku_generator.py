@@ -266,26 +266,39 @@ class Cell:
 
    def draw(self):
        if self.selected:
-           color = "black"
-       else:
            color = "red"
-       pygame.draw.line(self.screen, self.color, (self.row * 81, self.col * 81), ((self.row + 1) * 81 + 1, self.col * 81 + 1))
-       pygame.draw.line(self.screen, self.color, (self.row * 81, self.col * 81), (self.row * 81 + 1, (self.col + 1) * 81 + 1))
-       pygame.draw.line(self.screen, self.color, (self.row * 81, (self.col + 1) * 81), ((self.row + 1) * 81 + 1, (self.col + 1) * 81 + 1))
+       else:
+           color = "black"
+       pygame.draw.rect(self.screen, color, pygame.Rect(self.row * 81, self.col * 81, (self.row + 1) * 81, (self.col + 1) * 81), 1)
 
+   def __getitem__(self):
+       return self
 
 class Board:
    def __init__(self, width, height, difficulty):
-       self.width = width
-       self.height = height
-       self.screen = pygame.display.set_mode(width, height)
+       self.width = float(width)
+       self.height = float(height)
+       self.screen = pygame.display.set_mode((self.width, self.height))
+       self.screen.fill("blue")
        self.difficulty = difficulty
+       self.cells = []
+       for r in range(9):
+           for c in range(9):
+               self.cells.append(Cell(0, r, c, self.screen))
 
    def draw(self):
-       pass
+       pygame.display.update()
+       for cell in self.cells:
+           cell.draw()
+
 
    def select(self, row, col):
-       pass
+       if self.click(row, col) is not None:
+           for r in range(9):
+               for c in range(9):
+                   if self.cells[r][c].selected:
+                       self.cells[r][c].selected = False
+           self.cells[row][col].selected = True
 
    def click(self, row, col):
        if row <= 81 and col <= 81:

@@ -1,5 +1,6 @@
 import pygame
 import random 
+import sudoku_generator
 
 def main():
     try:
@@ -32,10 +33,16 @@ def main():
 
 
         #fill the grid, not sure how to fill it, need fucntion to generate specific set of "randomn" numbers, that make the game playable. 
-        sodoku_puzzle = ...
+        def generate_sudoku(size, removed):
+            sudoku = SudokuGenerator(size, removed)
+            sudoku.fill_values()
+            board = sudoku.get_board()
+            sudoku.remove_cells()
+            board = sudoku.get_board()
+            return board
 
         #function to display soduku numbers. 
-        def draw_numbers(): 
+        #def draw_numbers(): might not need this, im confused on what ive done here. 
 
         #handling user input 
         class UserInput: 
@@ -49,7 +56,7 @@ def main():
 
             #highlights selected cell for user 
             def draw_selected_cell(): 
-                if selected_cell = True:  
+                if selected_cell == True:  
                     row, col = selected_cell 
                     #beloow (col...) represents tuple for position & rectangle size. double cell_size is the width & height of selected rectangle. 
                     pygame.draw.rect(screen, BLUE, (col * cell_size, row * cell_size, cell_size, cell_size), 3)
@@ -70,10 +77,19 @@ def main():
                     select_cell(pygame.mouse.get_pos())
 
                 elif event.type == pygame.KEYDOWN: #adds number to selected cell. keydown is when a key is pressed
-                    if selected_cell = True and event.unicode.isdigit(): #event unicode is charachter reprisenttaon of what key was pressed + making sure key pressed is a digit. 
+                    if selected_cell == True and event.unicode.isdigit(): #event unicode is charachter reprisenttaon of what key was pressed + making sure key pressed is a digit. 
                         row, col = selected_cell
                         sudoku_puzzle[row][col] = int(event.unicode) #need to create a soduku puzzle. 
 
             pygame.display.flip()  # Update display
+
+    finally:
+        pygame.quit()
+
+if __name__ == "__main__":
+    main()
+ 
+
+
 
 

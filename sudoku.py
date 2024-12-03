@@ -1,6 +1,6 @@
 import pygame
 import sys
-pygame.font.init()
+import sudoku_generator as sg
 
 #set colors
 white = (255, 255, 255)
@@ -60,11 +60,11 @@ def start_page(screen):
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if easy_button.collidepoint(event.pos):
-                    return "easy mode"
+                    return "easy"
                 elif medium_button.collidepoint(event.pos):
-                    return "medium mode"
+                    return "medium"
                 elif hard_button.collidepoint(event.pos):
-                    return "hard mode"
+                    return "hard"
 
         pygame.display.update()
 
@@ -134,3 +134,21 @@ def game_over_page(screen):
         pygame.display.update()
 
 
+def main():
+    try:
+        pygame.init()
+        start_screen = pygame.display.set_mode((810, 972))
+        difficulty = start_page(start_screen)
+        board = sg.Board(810, 972, difficulty)
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or event.type == pygame.MOUSEBUTTONDOWN:
+                    running = False
+            board.draw()
+            pygame.display.flip()
+    finally:
+        pygame.quit()
+
+if __name__ == "__main__":
+    main()

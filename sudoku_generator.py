@@ -291,7 +291,6 @@ class Board:
        for cell in self.cells:
            cell.draw()
 
-
    def select(self, row, col):
        if self.click(row, col) is not None:
            for r in range(9):

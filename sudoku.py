@@ -67,6 +67,38 @@ def start_page(screen):
                     return "hard mode"
 
         pygame.display.update()
-if __name__ == "__main__":
-    selected_mode = start_page(screen)
-    print(f"Selected Mode: {selected_mode}")
+
+
+def game_won_page(screen):
+    #place exit button
+    exit_button = pygame.Rect(300, 500, 210, 80)
+    # draw text of buttons
+    exit_font = pygame.font.SysFont(None, 50)
+    exit_text = exit_font.render("EXIT", True, WHITE)
+    won_font = pygame.font.Font(None, 120)
+    won_text = won_font.render("Game Won!", True, BLACK)
+
+    while True:
+        #set screen color
+        screen.fill(WHITE)
+        #draw exit button
+        pygame.draw.rect(screen, ORANGE, exit_button)
+        # draw text
+        screen.blit(won_text, (180, 260))
+        #center exit text
+        x_exit_text = exit_button.x + (exit_button.width - exit_text.get_width()) // 2
+        y_exit_text = exit_button.y + (exit_button.height - exit_text.get_height()) // 2
+        #draw start text
+        screen.blit(exit_text, (x_exit_text, y_exit_text))
+        #event
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if exit_button.collidepoint(event.pos):  # Check if the button was clicked
+                    pygame.quit()
+                    sys.exit()
+        pygame.display.update()
+
+

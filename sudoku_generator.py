@@ -167,7 +167,7 @@ class SudokuGenerator:
 	boolean (whether or not we could solve the board)
     '''
     def fill_remaining(self, row, col):
-        if (col >= self.row_length and row < self.row_length - 1):
+        if col >= self.row_length and row < self.row_length - 1:
             row += 1
             col = 0
         if row >= self.row_length and col >= self.row_length:
@@ -241,10 +241,10 @@ removed is the number of cells to clear (set to 0)
 
 Return: list[list] (a 2D Python list to represent the board)
 '''
-def generate_sudoku(size, removed):
-    sudoku = SudokuGenerator(size, removed)
+def generate_sudoku(width, height, difficulty):
+    sudoku = Board(width, height, difficulty)
     sudoku.fill_values()
-    board = sudoku.get_board()
+    solved_board = sudoku.get_board()
     sudoku.remove_cells()
     board = sudoku.get_board()
     return board
@@ -274,13 +274,19 @@ class Cell:
    def __getitem__(self):
        return self
 
-class Board:
+class Board(SudokuGenerator):
    def __init__(self, width, height, difficulty):
        self.width = float(width)
        self.height = float(height)
+       if difficulty == "easy":
+           removed_cells = 30
+       elif difficulty == "medium":
+           removed_cells = 40
+       else:
+           removed_cells = 50
+       super().__init__(9, removed_cells)
        self.screen = pygame.display.set_mode((self.width, self.height))
        self.screen.fill("blue")
-       self.difficulty = difficulty
        self.cells = []
        for r in range(9):
            for c in range(9):
@@ -305,25 +311,46 @@ class Board:
        return None
 
    def clear(self):
-       pass
+        for r in range(9):
+           for c in range(9):
+               self.cells[r][c].set_cell_value(0)
 
    def sketch(self, value):
-       pass
+       for r in range(9):
+           for c in range(9):
+               if self.cells[r][c].selected:
+                   self.cells[r][c].set_sketched_value(value)
 
-   def place_number(self, value):
-       pass
+   def place_number(self):
+       for r in range(9):
+           for c in range(9):
+               if self.cells[r][c].selected:
+                   self.cells[r][c].set_cell_value(self.cells[r][c].value)
 
    def reset_to_original(self):
-       pass
+    pass
 
    def is_full(self):
-       pass
+       for r in range(9):
+           for cell in self.cells[r]:
+               if cell.value == 0:
+                   return False
+       return True
 
    def update_board(self):
-       pass
+       for r in range(9):
+           for c in range(9):
+               self.board[r][c] = self.cells[r][c].value
 
    def find_empty(self):
-       pass
+       for r in range(9):
+           for c in range(9):
+               if self.cells[r][c].value == 0:
+                   return r, c
 
-   def check_board(self):
-       pass
+   def check_board(self, solved_board):
+       for r in range(9):
+           for c in range(9):
+               if self.board[r][c] != solved_board[r][c]:
+                   return False
+       return True

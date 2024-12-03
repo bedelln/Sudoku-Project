@@ -27,7 +27,7 @@ class SudokuGenerator:
         self.row_length = row_length
         self.removed_cells = removed_cells
         self.board = [[0] * self.row_length for _ in range(self.row_length)]
-        self.box_length = math.sqrt(self.row_length)
+        self.box_length = int(math.sqrt(self.row_length))
 
 
     '''
@@ -166,8 +166,9 @@ class SudokuGenerator:
 	Return:
 	boolean (whether or not we could solve the board)
     '''
+
     def fill_remaining(self, row, col):
-        if col >= self.row_length and row < self.row_length - 1:
+        if (col >= self.row_length and row < self.row_length - 1):
             row += 1
             col = 0
         if row >= self.row_length and col >= self.row_length:
@@ -184,13 +185,13 @@ class SudokuGenerator:
                 col = 0
                 if row >= self.row_length:
                     return True
-        
+
         for num in range(1, self.row_length + 1):
             if self.is_valid(row, col, num):
-                self.board[int(row)][int(col)] = num
+                self.board[row][col] = num
                 if self.fill_remaining(row, col + 1):
                     return True
-                self.board[int(row)][int(col)] = 0
+                self.board[row][col] = 0
         return False
 
     '''
@@ -269,7 +270,7 @@ class Cell:
            color = "red"
        else:
            color = "black"
-       pygame.draw.rect(self.screen, color, pygame.Rect(self.row * 81, self.col * 81, 81, 81), 1)
+       pygame.draw.rect(self.screen, color, pygame.Rect((self.row + 0.5) * 81, (self.col + 2) * 81, 40, 40), 1)
        font = pygame.font.Font(None, 48)
        if self.value != 0:
            text = font.render(str(self.value), True, "black")
@@ -362,3 +363,8 @@ class Board(SudokuGenerator):
                if self.board[r][c] != solved_board[r][c]:
                    return False
        return True
+
+game = SudokuGenerator(9, 30)
+game.fill_values()
+game.remove_cells()
+game.print_board()

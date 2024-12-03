@@ -16,17 +16,27 @@ pygame.display.set_caption("Sudoku")
 
 def start_page(screen):
     #place mode buttons, set button width 200 and button height 70
-    easy_button = pygame.Rect(100, 550, 200, 70)
-    medium_button = pygame.Rect(310, 550, 200, 70)
-    hard_button = pygame.Rect(520, 550, 200, 70)
+    easy_button = pygame.Rect(100, 500, 200, 70)
+    medium_button = pygame.Rect(310, 500, 200, 70)
+    hard_button = pygame.Rect(520, 500, 200, 70)
     #draw text of buttons
     font = pygame.font.SysFont(None, 50)
     easy_text = font.render("EASY", True, WHITE)
     medium_text = font.render("MEDIUM", True, WHITE)
     hard_text = font.render("HARD", True, WHITE)
+
+    welcome_font = pygame.font.Font(None, 80)
+    welcome_text = welcome_font.render("Welcome to Sudoku", True, BLACK)
+    selection_font = pygame.font.Font(None, 65)
+    selection_text = selection_font.render("Select Game Mode:", True, BLACK)
+
+
     while True:
-        #set screen color
+        #set screen color"
         screen.fill(WHITE)
+        #draw text
+        screen.blit(welcome_text, (140, 150))
+        screen.blit(selection_text, (190, 300))
         #draw buttons
         pygame.draw.rect(screen, BLUE, easy_button)
         pygame.draw.rect(screen, ORANGE, medium_button)

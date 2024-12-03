@@ -83,7 +83,7 @@ def game_won_page(screen):
         screen.fill(WHITE)
         #draw exit button
         pygame.draw.rect(screen, ORANGE, exit_button)
-        #draw text
+        # draw text
         screen.blit(won_text, (180, 260))
         #center exit text
         x_exit_text = exit_button.x + (exit_button.width - exit_text.get_width()) // 2
@@ -96,7 +96,39 @@ def game_won_page(screen):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if exit_button.collidepoint(event.pos):  #check if the button was clicked
+                if exit_button.collidepoint(event.pos):  #check if the exit button was clicked
+                    pygame.quit()
+                    sys.exit()
+        pygame.display.update()
+
+def game_over_page(screen):
+    #place restart button
+    restart_button = pygame.Rect(300, 500, 210, 80)
+    # draw text of buttons
+    restart_font = pygame.font.SysFont(None, 50)
+    restart_text = restart_font.render("RESTART", True, WHITE)
+    game_over_font = pygame.font.Font(None, 120)
+    game_over_text = game_over_font.render("Game Over :(", True, BLACK)
+
+    while True:
+        #set screen color
+        screen.fill(WHITE)
+        #draw exit button
+        pygame.draw.rect(screen, ORANGE, restart_button)
+        # draw text
+        screen.blit(game_over_text, (145, 260))
+        #center exit text
+        x_exit_text = restart_button.x + (restart_button.width - restart_text.get_width()) // 2
+        y_exit_text = restart_button.y + (restart_button.height - restart_text.get_height()) // 2
+        #draw start text
+        screen.blit(restart_text, (x_exit_text, y_exit_text))
+        #event
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if restart_button.collidepoint(event.pos):  #check if the restart button was clicked
                     pygame.quit()
                     sys.exit()
         pygame.display.update()

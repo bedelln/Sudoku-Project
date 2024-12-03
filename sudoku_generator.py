@@ -331,7 +331,7 @@ class Board(SudokuGenerator):
    def reset_to_original(self):
        for r in range(9):
            for c in range(9):
-               self.cells[r][c] = self.base_board[r][c]
+               self.cells[r][c].value = self.base_board[r][c]
                self.board[r][c] = self.base_board[r][c]
 
    def is_full(self):

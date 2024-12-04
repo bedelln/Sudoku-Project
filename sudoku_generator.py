@@ -270,7 +270,7 @@ class Cell:
            color = "red"
        else:
            color = "black"
-       pygame.draw.rect(self.screen, color, pygame.Rect((self.row + 0.5) * 81, (self.col + 2) * 81, 40, 40), 1)
+       pygame.draw.rect(self.screen, color, pygame.Rect((self.row + 1) * 81, (self.col + 1) * 81, 40, 40), 1)
        font = pygame.font.Font(None, 48)
        if self.value != 0:
            text = font.render(str(self.value), True, "black")
@@ -363,8 +363,3 @@ class Board(SudokuGenerator):
                if self.board[r][c] != solved_board[r][c]:
                    return False
        return True
-
-game = SudokuGenerator(9, 30)
-game.fill_values()
-game.remove_cells()
-game.print_board()

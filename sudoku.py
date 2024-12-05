@@ -196,12 +196,8 @@ def main():
     # Start page for difficulty selection
     difficulty = start_page(screen)
 
-    # Map difficulties to pre-filled cell counts
-    difficulty_map = {"easy": 30, "medium": 40, "hard": 50}
-    removed_cells = difficulty_map[difficulty]
-
     # Generate Sudoku board
-    board = generate_sudoku(9, removed_cells)
+    board = generate_sudoku(810, 972, difficulty)
     selected = None
     user_inputs = set()
 
@@ -218,7 +214,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
 
                 if reset_button.collidepoint(event.pos):
-                    board = generate_sudoku(9, removed_cells)  # Reset the board
+                    board.reset_to_original()  # Reset the board
                     user_inputs.clear()
                 elif restart_button.collidepoint(event.pos):
                     main()  # Restart the game

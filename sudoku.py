@@ -75,10 +75,10 @@ def draw_board(screen, board, selected=None, user_inputs=None):
 
 def start_page(screen):
     # Buttons for selecting difficulty
-    easy_button = pygame.Rect(50, 400, 150, 70)
-    medium_button = pygame.Rect(210, 400, 150, 70)
-    hard_button = pygame.Rect(370, 400, 150, 70)
-
+    easy_button = pygame.Rect(120, 400, 150, 70)
+    medium_button = pygame.Rect(280, 400, 150, 70)
+    hard_button = pygame.Rect(440, 400, 150, 70)
+    
     # Text for buttons
     font = pygame.font.SysFont(None, 50)
     easy_text = font.render("EASY", True, WHITE)

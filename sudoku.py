@@ -2,6 +2,8 @@ import pygame
 import sys
 from sudoku_generator import generate_sudoku  
 
+# UPDATE
+
 pygame.init()
 
 # Constants

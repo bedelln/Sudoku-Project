@@ -24,10 +24,11 @@ class SudokuGenerator:
 	None
     '''
 
-    def __init__(self, row_length=9, removed_cells=40):
+    def __init__(self, row_length, removed_cells):
         self.row_length = row_length
         self.board = [[0] * row_length for _ in range(row_length)]
         self.removed_cells = removed_cells
+        self.box_length = int(math.sqrt(self.row_length))
 
 
     '''
@@ -204,7 +205,7 @@ class SudokuGenerator:
     '''
     def fill_values(self):
         self.fill_diagonal()
-        self.fill_remaining(0, self.box_length)
+        self.fill_remaining(0, self.row_length)
 
     '''
     Removes the appropriate number of cells from the board
@@ -296,7 +297,7 @@ class Board(SudokuGenerator):
        self.cells = []
        for r in range(9):
            for c in range(9):
-               self.cells.append(Cell(0, r, c, self.screen))
+               self.cells.append(Cell(self.board[r][c], r, c, self.screen))
 
    def draw(self):
        pygame.display.update()

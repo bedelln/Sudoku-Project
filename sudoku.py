@@ -8,7 +8,7 @@ pygame.init()
 
 # Constants
 WIDTH, HEIGHT = 700, 600
-CELL_SIZE = WIDTH // 11
+CELL_SIZE = WIDTH / 9
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -29,7 +29,7 @@ def draw_board(screen, board, selected=None, user_inputs=None):
     # Draw the grid and numbers
     for r in range(9):
         for c in range(9):
-            rect = pygame.Rect(c * CELL_SIZE + 75, r * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            rect = pygame.Rect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             # Highlight the selected cell
             if selected == (r, c):
                 pygame.draw.rect(screen, RED, rect, 3)
@@ -46,13 +46,13 @@ def draw_board(screen, board, selected=None, user_inputs=None):
 
     # Draw thicker lines for subgrid separation
     for i in range(1, 3):
-        pygame.draw.line(screen, GRID_COLOR, (75, i * CELL_SIZE * 3), (WIDTH - 60, i * CELL_SIZE * 3), 3)  # Horizontal lines
-        pygame.draw.line(screen, GRID_COLOR, (i * CELL_SIZE * 3, 0), (i * CELL_SIZE * 3, HEIGHT - 35), 3)  # Vertical lines
+        pygame.draw.line(screen, GRID_COLOR, (0, i * CELL_SIZE * 3), (WIDTH, i * CELL_SIZE * 3), 3)  # Horizontal lines
+        pygame.draw.line(screen, GRID_COLOR, (i * CELL_SIZE * 3, 0), (i * CELL_SIZE * 3, HEIGHT + 97.5), 3)  # Vertical lines
 
     # Draw buttons
-    reset_button = pygame.Rect(20, HEIGHT + 10, 150, 50)
-    restart_button = pygame.Rect(WIDTH // 2 - 75, HEIGHT + 10, 150, 50)
-    exit_button = pygame.Rect(WIDTH - 170, HEIGHT + 10, 150, 50)
+    reset_button = pygame.Rect(20, HEIGHT + 100, 150, 50)
+    restart_button = pygame.Rect(WIDTH // 2 - 75, HEIGHT + 100, 150, 50)
+    exit_button = pygame.Rect(WIDTH - 170, HEIGHT + 100, 150, 50)
     
     pygame.draw.rect(screen, BUTTON_COLOR, reset_button)
     pygame.draw.rect(screen, BUTTON_COLOR, restart_button)
@@ -192,7 +192,7 @@ def game_over_page(screen):
 
 def main():
     
-    screen = pygame.display.set_mode((WIDTH, HEIGHT + 70))  # Adjust height for buttons
+    screen = pygame.display.set_mode((WIDTH, HEIGHT + 200))  # Adjust height for buttons
     pygame.display.set_caption("Sudoku Game")
 
     # Start page for difficulty selection

@@ -1,8 +1,6 @@
 import pygame
 import sys
-import sudoku_generator
-
-# UPDATE
+from sudoku_generator import generate_sudoku  
 
 pygame.init()
 
@@ -75,10 +73,10 @@ def draw_board(screen, board, selected=None, user_inputs=None):
 
 def start_page(screen):
     # Buttons for selecting difficulty
-    easy_button = pygame.Rect(120, 400, 150, 70)
-    medium_button = pygame.Rect(280, 400, 150, 70)
-    hard_button = pygame.Rect(440, 400, 150, 70)
-    
+    easy_button = pygame.Rect(50, 400, 150, 70)
+    medium_button = pygame.Rect(210, 400, 150, 70)
+    hard_button = pygame.Rect(370, 400, 150, 70)
+
     # Text for buttons
     font = pygame.font.SysFont(None, 50)
     easy_text = font.render("EASY", True, WHITE)
@@ -198,8 +196,12 @@ def main():
     # Start page for difficulty selection
     difficulty = start_page(screen)
 
+    # Map difficulties to pre-filled cell counts
+    difficulty_map = {"easy": 30, "medium": 40, "hard": 50}
+    removed_cells = difficulty_map[difficulty]
+
     # Generate Sudoku board
-    board = sudoku_generator.generation(810, 972, difficulty)
+    board = generate_sudoku(9, removed_cells)
     selected = None
     user_inputs = set()
 
@@ -216,7 +218,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
 
                 if reset_button.collidepoint(event.pos):
-                    board.reset_to_original()  # Reset the board
+                    board = generate_sudoku(9, removed_cells)  # Reset the board
                     user_inputs.clear()
                 elif restart_button.collidepoint(event.pos):
                     main()  # Restart the game

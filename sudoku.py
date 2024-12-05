@@ -1,12 +1,14 @@
 import pygame
 import sys
+
+import sudoku_generator
 from sudoku_generator import generate_sudoku  
 
 pygame.init()
 
 # Constants
 WIDTH, HEIGHT = 700, 600
-CELL_SIZE = WIDTH // 9
+CELL_SIZE = WIDTH // 11
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -27,7 +29,7 @@ def draw_board(screen, board, selected=None, user_inputs=None):
     # Draw the grid and numbers
     for r in range(9):
         for c in range(9):
-            rect = pygame.Rect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            rect = pygame.Rect(c * CELL_SIZE + 75, r * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             # Highlight the selected cell
             if selected == (r, c):
                 pygame.draw.rect(screen, RED, rect, 3)
@@ -36,7 +38,7 @@ def draw_board(screen, board, selected=None, user_inputs=None):
             pygame.draw.rect(screen, GRID_COLOR, rect, 1)
 
             # Draw the numbers in the grid
-            val = board[r][c]
+            val = board.board[r][c]
             if val != 0:
                 color = USER_INPUT_COLOR if (r, c) in user_inputs else GRID_COLOR
                 text = FONT.render(str(val), True, color)
@@ -44,8 +46,8 @@ def draw_board(screen, board, selected=None, user_inputs=None):
 
     # Draw thicker lines for subgrid separation
     for i in range(1, 3):
-        pygame.draw.line(screen, GRID_COLOR, (0, i * CELL_SIZE * 3), (WIDTH, i * CELL_SIZE * 3), 3)  # Horizontal lines
-        pygame.draw.line(screen, GRID_COLOR, (i * CELL_SIZE * 3, 0), (i * CELL_SIZE * 3, HEIGHT), 3)  # Vertical lines
+        pygame.draw.line(screen, GRID_COLOR, (75, i * CELL_SIZE * 3), (WIDTH - 60, i * CELL_SIZE * 3), 3)  # Horizontal lines
+        pygame.draw.line(screen, GRID_COLOR, (i * CELL_SIZE * 3, 0), (i * CELL_SIZE * 3, HEIGHT - 35), 3)  # Vertical lines
 
     # Draw buttons
     reset_button = pygame.Rect(20, HEIGHT + 10, 150, 50)
@@ -201,7 +203,7 @@ def main():
     removed_cells = difficulty_map[difficulty]
 
     # Generate Sudoku board
-    board = generate_sudoku(9, removed_cells)
+    board = sudoku_generator.generate(9, removed_cells)
     selected = None
     user_inputs = set()
 
@@ -235,7 +237,20 @@ def main():
                 if selected:
                     row, col = selected
                     if pygame.K_1 <= event.key <= pygame.K_9:
-                        board[row][col] = event.key - pygame.K_0
+                        board.board[row][col] = event.key - pygame.K_0
+                        count = 0
+                        correct = 0
+                        for r in range(9):
+                            for c in range(9):
+                                if board.board[r][c] != 0:
+                                    count += 1
+                                    if board.board[r][c] == board.solved[r][c]:
+                                        correct += 1
+                        if count >= 81:
+                            if correct == count:
+                                game_won_page(screen)
+                            else:
+                                game_over_page(screen)
 
         pygame.display.update()
 

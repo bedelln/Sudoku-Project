@@ -1,6 +1,6 @@
 import pygame
 import sys
-from sudoku_generator import generate_sudoku  
+import sudoku_generator
 
 # UPDATE
 
@@ -199,7 +199,7 @@ def main():
     difficulty = start_page(screen)
 
     # Generate Sudoku board
-    board = generate_sudoku(810, 972, difficulty)
+    board = sudoku_generator.generation(810, 972, difficulty)
     selected = None
     user_inputs = set()
 

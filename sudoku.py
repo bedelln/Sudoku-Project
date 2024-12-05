@@ -50,9 +50,9 @@ def draw_board(screen, board, selected=None, user_inputs=None):
         pygame.draw.line(screen, GRID_COLOR, (i * CELL_SIZE * 3, 0), (i * CELL_SIZE * 3, HEIGHT + 97.5), 3)  # Vertical lines
 
     # Draw buttons
-    reset_button = pygame.Rect(20, HEIGHT + 100, 150, 50)
-    restart_button = pygame.Rect(WIDTH // 2 - 75, HEIGHT + 100, 150, 50)
-    exit_button = pygame.Rect(WIDTH - 170, HEIGHT + 100, 150, 50)
+    reset_button = pygame.Rect(20, HEIGHT + 125, 150, 50)
+    restart_button = pygame.Rect(WIDTH // 2 - 75, HEIGHT + 125, 150, 50)
+    exit_button = pygame.Rect(WIDTH - 170, HEIGHT + 125, 150, 50)
     
     pygame.draw.rect(screen, BUTTON_COLOR, reset_button)
     pygame.draw.rect(screen, BUTTON_COLOR, restart_button)
@@ -204,6 +204,8 @@ def main():
 
     # Generate Sudoku board
     board = sudoku_generator.generate(9, removed_cells)
+    print(board.solved)
+    print(board.board)
     selected = None
     user_inputs = set()
 
@@ -237,20 +239,22 @@ def main():
                 if selected:
                     row, col = selected
                     if pygame.K_1 <= event.key <= pygame.K_9:
-                        board.board[row][col] = event.key - pygame.K_0
+                        board.board[int(row)][int(col)] = event.key - pygame.K_0
                         count = 0
                         correct = 0
                         for r in range(9):
                             for c in range(9):
                                 if board.board[r][c] != 0:
                                     count += 1
+                                    print(count)
                                     if board.board[r][c] == board.solved[r][c]:
                                         correct += 1
+                                        print(correct)
                         if count >= 81:
-                            if correct == count:
-                                game_won_page(screen)
-                            else:
+                            if correct != count:
                                 game_over_page(screen)
+                            else:
+                                game_won_page(screen)
 
         pygame.display.update()
 

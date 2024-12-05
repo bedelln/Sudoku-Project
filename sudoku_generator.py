@@ -26,7 +26,7 @@ class SudokuGenerator:
         self.board = [[0] * row_length for _ in range(row_length)]
         self.removed_cells = removed_cells
         self.box_length = int(math.sqrt(self.row_length))
-        self.solved = [[]]
+        self.solved = []
 
         '''
         Returns a 2D python list of numbers which represents the board
@@ -248,6 +248,6 @@ def generate_sudoku(size, removed):
 def generate(size, removed):
     generator = SudokuGenerator(size, removed)
     generator.fill_board()
-    generator.solved = generator.board
+    generator.solved = [row[:] for row in generator.board]
     generator.remove_cells()
     return generator

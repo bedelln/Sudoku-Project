@@ -1,8 +1,6 @@
 import pygame
 import sys
-
 import sudoku_generator
-from sudoku_generator import generate_sudoku  
 
 pygame.init()
 
@@ -24,8 +22,8 @@ BUTTON_TEXT_COLOR = WHITE
 # Function to draw grid, numbers, and buttons
 def draw_board(screen, board, selected=None, user_inputs=None):
     if user_inputs is None:
-        user_inputs = set()
-        
+        user_inputs = []
+
     # Draw the grid and numbers
     for r in range(9):
         for c in range(9):
@@ -40,20 +38,21 @@ def draw_board(screen, board, selected=None, user_inputs=None):
             # Draw the numbers in the grid
             val = board.board[r][c]
             if val != 0:
-                color = USER_INPUT_COLOR if (r, c) in user_inputs else GRID_COLOR
+                color = USER_INPUT_COLOR if [r, c] in user_inputs else GRID_COLOR
                 text = FONT.render(str(val), True, color)
                 screen.blit(text, (c * CELL_SIZE + CELL_SIZE // 3, r * CELL_SIZE + CELL_SIZE // 3))
 
     # Draw thicker lines for subgrid separation
     for i in range(1, 3):
         pygame.draw.line(screen, GRID_COLOR, (0, i * CELL_SIZE * 3), (WIDTH, i * CELL_SIZE * 3), 3)  # Horizontal lines
-        pygame.draw.line(screen, GRID_COLOR, (i * CELL_SIZE * 3, 0), (i * CELL_SIZE * 3, HEIGHT + 97.5), 3)  # Vertical lines
+        pygame.draw.line(screen, GRID_COLOR, (i * CELL_SIZE * 3, 0), (i * CELL_SIZE * 3, HEIGHT + 97.5),
+                         3)  # Vertical lines
 
     # Draw buttons
     reset_button = pygame.Rect(20, HEIGHT + 125, 150, 50)
     restart_button = pygame.Rect(WIDTH // 2 - 75, HEIGHT + 125, 150, 50)
     exit_button = pygame.Rect(WIDTH - 170, HEIGHT + 125, 150, 50)
-    
+
     pygame.draw.rect(screen, BUTTON_COLOR, reset_button)
     pygame.draw.rect(screen, BUTTON_COLOR, restart_button)
     pygame.draw.rect(screen, BUTTON_COLOR, exit_button)
@@ -73,11 +72,12 @@ def draw_board(screen, board, selected=None, user_inputs=None):
 
     return reset_button, restart_button, exit_button
 
+
 def start_page(screen):
     # Buttons for selecting difficulty
-    easy_button = pygame.Rect(50, 400, 150, 70)
-    medium_button = pygame.Rect(210, 400, 150, 70)
-    hard_button = pygame.Rect(370, 400, 150, 70)
+    easy_button = pygame.Rect(120, 350, 150, 70)
+    medium_button = pygame.Rect(280, 350, 150, 70)
+    hard_button = pygame.Rect(440, 350, 150, 70)
 
     # Text for buttons
     font = pygame.font.SysFont(None, 50)
@@ -99,15 +99,21 @@ def start_page(screen):
         screen.blit(subtitle_text, (WIDTH // 2 - subtitle_text.get_width() // 2, 200))
         pygame.draw.rect(screen, BLUE, easy_button)
         pygame.draw.rect(screen, ORANGE, medium_button)
-        pygame.draw.rect(screen, BLUE, hard_button)
+        pygame.draw.rect(screen, RED, hard_button)
 
         # Center button text
-        screen.blit(easy_text, (easy_button.x + (easy_button.width - easy_text.get_width()) // 2, 
+        screen.blit(easy_text, (easy_button.x + (easy_button.width - easy_text.get_width()) // 2,
                                 easy_button.y + (easy_button.height - easy_text.get_height()) // 2))
-        screen.blit(medium_text, (medium_button.x + (medium_button.width - medium_text.get_width()) // 2, 
+        screen.blit(medium_text, (medium_button.x + (medium_button.width - medium_text.get_width()) // 2,
                                   medium_button.y + (medium_button.height - medium_text.get_height()) // 2))
-        screen.blit(hard_text, (hard_button.x + (hard_button.width - hard_text.get_width()) // 2, 
+        screen.blit(hard_text, (hard_button.x + (hard_button.width - hard_text.get_width()) // 2,
                                 hard_button.y + (hard_button.height - hard_text.get_height()) // 2))
+
+        #Image
+        image = pygame.image.load("start_page_image.jpg")
+        image = pygame.transform.scale(image, (200, 200))
+        screen.blit(image, (WIDTH - 450, HEIGHT - 75))
+
 
         # Event handling
         for event in pygame.event.get():
@@ -124,9 +130,10 @@ def start_page(screen):
 
         pygame.display.update()
 
+
 def game_won_page(screen):
     # place exit button
-    exit_button = pygame.Rect(300, 500, 210, 80)
+    exit_button = pygame.Rect(260, 500, 210, 80)
     # draw text of buttons
     exit_font = pygame.font.SysFont(None, 50)
     exit_text = exit_font.render("EXIT", True, WHITE)
@@ -139,7 +146,7 @@ def game_won_page(screen):
         # draw exit button
         pygame.draw.rect(screen, ORANGE, exit_button)
         # draw text
-        screen.blit(won_text, (180, 260))
+        screen.blit(won_text, (125, 260))
         # center exit text
         x_exit_text = exit_button.x + (exit_button.width - exit_text.get_width()) // 2
         y_exit_text = exit_button.y + (exit_button.height - exit_text.get_height()) // 2
@@ -159,7 +166,7 @@ def game_won_page(screen):
 
 def game_over_page(screen):
     # place restart button
-    restart_button = pygame.Rect(300, 500, 210, 80)
+    restart_button = pygame.Rect(260, 500, 210, 80)
     # draw text of buttons
     restart_font = pygame.font.SysFont(None, 50)
     restart_text = restart_font.render("RESTART", True, WHITE)
@@ -172,7 +179,7 @@ def game_over_page(screen):
         # draw exit button
         pygame.draw.rect(screen, ORANGE, restart_button)
         # draw text
-        screen.blit(game_over_text, (145, 260))
+        screen.blit(game_over_text, (100, 260))
         # center exit text
         x_exit_text = restart_button.x + (restart_button.width - restart_text.get_width()) // 2
         y_exit_text = restart_button.y + (restart_button.height - restart_text.get_height()) // 2
@@ -185,13 +192,12 @@ def game_over_page(screen):
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if restart_button.collidepoint(event.pos):  # check if the restart button was clicked
-                    return  # Go back to the main game
+                    return main() # Go back to the main game
 
         pygame.display.update()
 
 
 def main():
-    
     screen = pygame.display.set_mode((WIDTH, HEIGHT + 200))  # Adjust height for buttons
     pygame.display.set_caption("Sudoku Game")
 
@@ -204,14 +210,30 @@ def main():
 
     # Generate Sudoku board
     board = sudoku_generator.generate(9, removed_cells)
-    print(board.solved)
-    print(board.board)
     selected = None
-    user_inputs = set()
+    row, col = 0, 0
+    num_selected = 0
 
+    #Setting up updating board variables
+    initial_board = [[], [], [], [], [], [], [], [], []]
+    updating_board = [[], [], [], [], [], [], [], [], []]
+    updated_board = [[], [], [], [], [], [], [], [], []]
+    for i in range(len(board.board)):
+        for j in range(len(board.board[0])):
+            initial_board[i].append(board.board[i][j])
+            updating_board[i].append(board.board[i][j])
+            updated_board[i].append(board.board[i][j])
+
+
+    user_input = []
+    user_values = []
+
+    #Sudoku Game
     while True:
+        #Sets up screen
         screen.fill(WHITE)
-        reset_button, restart_button, exit_button = draw_board(screen, board, selected, user_inputs)
+        reset_button, restart_button, exit_button = draw_board(screen, board, selected, user_input)
+
 
         for event in pygame.event.get():
 
@@ -219,15 +241,23 @@ def main():
                 pygame.quit()
                 sys.exit()
 
+            #Click
             if event.type == pygame.MOUSEBUTTONDOWN:
 
-                if reset_button.collidepoint(event.pos):
-                    board = generate_sudoku(9, removed_cells)  # Reset the board
-                    user_inputs.clear()
+                if reset_button.collidepoint(event.pos):  # Resets the board
+                    board.reset_board(initial_board)
+                    updating_board = [[], [], [], [], [], [], [], [], []]
+                    updated_board = [[], [], [], [], [], [], [], [], []]
+                    for i in range(len(board.board)):
+                        for j in range(len(board.board[0])):
+                            updating_board[i].append(board.board[i][j])
+                            updated_board[i].append(board.board[i][j])
+                    user_input.clear()
+                    user_values.clear()
                 elif restart_button.collidepoint(event.pos):
                     main()  # Restart the game
                 elif exit_button.collidepoint(event.pos):
-                    pygame.quit()
+                    pygame.quit() #Quits the game
                     sys.exit()
 
                 # Handle user input
@@ -235,28 +265,92 @@ def main():
                 row, col = y // CELL_SIZE, x // CELL_SIZE
                 selected = (row, col)
 
-            if event.type == pygame.KEYDOWN:
-                if selected:
-                    row, col = selected
-                    if pygame.K_1 <= event.key <= pygame.K_9:
-                        board.board[int(row)][int(col)] = event.key - pygame.K_0
-                        count = 0
-                        correct = 0
+            #Up, Down, Left, and Right Key events
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+                if selected[0] > 0:
+                    row = row - 1
+                    selected = row, col
+
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+                if selected[0] < 8:
+                    row = row + 1
+                    selected = row, col
+
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                if selected[1] > 0:
+                    col = col - 1
+                    selected = row, col
+
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                if selected[1] < 8:
+                    col = col + 1
+                    selected = row, col
+
+
+            #Number Keydown
+            elif event.type == pygame.KEYDOWN:
+                selected = (row, col)
+                if pygame.K_1 <= event.key <= pygame.K_9:
+                    key_selected = event.key
+                    num_selected = event.key - pygame.K_0
+                    if [int(row), int(col)] not in user_input and updating_board[int(row)][int(col)] == 0:
+                        user_input.append([int(row), int(col)])
+                        user_values.append(num_selected)
+                        board.set_sketched_value(selected, key_selected)
+                        updating_board[int(row)][int(col)] = num_selected
+                    elif updated_board[int(row)][int(col)] == 0:
+                        temp = 0
+                        for i in user_input:
+                            if i[0] == row and i[1] == col:
+                                user_values[temp] = num_selected
+                            temp += 1
+                        board.set_sketched_value(selected, key_selected)
+                        updating_board[int(row)][int(col)] = num_selected
+
+
+                #Backspace Keydown
+                elif event.key == pygame.K_BACKSPACE:
+                    temp = 0
+                    for i in user_input:
+                        if i[0] == row and i[1] == col:
+                            board.set_sketched_value(selected)
+                            updating_board[int(row)][int(col)] = 0
+                        temp += 1
+
+
+                #Enter Keydown
+                elif event.key == pygame.K_RETURN:
+                    if updated_board[int(row)][int(col)] == 0 and updating_board[int(row)][int(col)] != 0:
+                        temp = 0
+                        for i in user_input:
+                            if i[0] == int(row) and i[1] == int(col):
+                                updated_board[int(row)][int(col)] = user_values[temp]
+                                num_selected = user_values[temp]
+                                user_input.pop(temp)
+                                user_values.pop(temp)
+                                board.set_actual_value(selected, num_selected)
+                            temp += 1
+
+
+                    #Checks if win
+                    count = 0
+                    correct = 0
+                    if len(user_input) == 0:
                         for r in range(9):
                             for c in range(9):
                                 if board.board[r][c] != 0:
                                     count += 1
-                                    print(count)
                                     if board.board[r][c] == board.solved[r][c]:
                                         correct += 1
-                                        print(correct)
                         if count >= 81:
-                            if correct != count:
-                                game_over_page(screen)
-                            else:
+                            if correct == count:
                                 game_won_page(screen)
+                            else:
+                                game_over_page(screen)
+
 
         pygame.display.update()
+
 
 if __name__ == "__main__":
     main()

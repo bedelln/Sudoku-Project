@@ -1,9 +1,19 @@
 import math,random
+import pygame
+
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
 https://www.geeksforgeeks.org/program-sudoku-generator/
 
 """
+import math, random
+
+"""
+This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
+https://www.geeksforgeeks.org/program-sudoku-generator/
+
+"""
+
 
 class SudokuGenerator:
     '''
@@ -28,6 +38,51 @@ class SudokuGenerator:
         self.box_length = int(math.sqrt(self.row_length))
         self.solved = []
 
+
+    '''
+    Enters in the sketched value the user entered into the board
+        
+    Parameters: 
+    selected_location is the intended location for the number
+    selected_key is the key clicked by the user (will only be a number 1-9)
+        
+    Return: None
+    '''
+    def set_sketched_value(self, selected_location, selected_key = None):
+        if selected_key == None:
+            self.board[int(selected_location[0])][int(selected_location[1])] = 0
+        else:
+            self.board[int(selected_location[0])][int(selected_location[1])] = selected_key - pygame.K_0
+
+
+    '''
+    Similar function to set_sketched_value, sets the board value to the sketched value
+    Only called when enter is pressed in sudoku.py
+    
+    Parameters:
+    selected_location is the intended location for the number
+    num is the number that will set in the board, already entered by the user
+    
+    Return: None
+    '''
+    def set_actual_value(self, selected_location, num):
+        self.board[int(selected_location[0])][int(selected_location[1])] = num
+
+
+    '''
+    Resets the board to the original generated board before values were entered
+    
+    Parameters: 
+    initial_board is the initial board generated when the difficulty was selected
+    
+    Return: None
+    '''
+    def reset_board(self, initial_board):
+        for i in range(self.row_length):
+            for j in range(self.row_length):
+                self.board[i][j] = initial_board[i][j]
+
+
         '''
         Returns a 2D python list of numbers which represents the board
 
@@ -37,10 +92,11 @@ class SudokuGenerator:
     def get_board(self):
         return self.board
 
+
     '''
         Displays the board to the console
         This is not strictly required, but it may be useful for debugging purposes
-            
+
             Parameters: None
             Return: None
         '''
@@ -48,18 +104,20 @@ class SudokuGenerator:
         for row in self.board:
             print(row)
 
+
     '''
             Determines if num is contained in the specified column (vertical) of the board
             If num is already in the specified col, return False. Otherwise, return True
-        
+
             Parameters:
             col is the index of the column we are checking
             num is the value we are looking for in the column
-        
+
             Return: boolean
         '''
     def valid_in_row(self, row, num):
         return num not in self.board[row]
+
 
     '''
         	Determines if num is contained in the specified column (vertical) of the board
@@ -73,6 +131,7 @@ class SudokuGenerator:
         '''
     def valid_in_col(self, col, num):
         return num not in [self.board[row][col] for row in range(self.row_length)]
+
 
     '''
         Determines if it is valid to enter num at (row, col) in the board
@@ -91,6 +150,7 @@ class SudokuGenerator:
                     return False
         return True
 
+
     '''
         Fills the specified 3x3 box with values
         For each position, generates a random digit which has not yet been used in the box
@@ -105,6 +165,7 @@ class SudokuGenerator:
         return (self.valid_in_row(row, num) and
                 self.valid_in_col(col, num) and
                 self.valid_in_box(row - row % 3, col - col % 3, num))
+
 
     '''
         Fills the three boxes along the main diagonal of the board
@@ -121,12 +182,13 @@ class SudokuGenerator:
                     if self.valid_in_box(r // 3, c // 3, rand_num):
                         self.board[r + start][c + start] = rand_num
 
+
     '''
     DO NOT CHANGE
     Provided for students
     Fills the remaining cells of the board
     Should be called after the diagonal boxes have been filled
-	
+
 	    Parameters:
 	    row, col specify the coordinates of the first empty (0) cell
 
@@ -160,6 +222,7 @@ class SudokuGenerator:
                 self.board[row][col] = 0
         return False
 
+
     def fill_box(self, row_start, col_start):
         nums = list(range(1, 10))
         random.shuffle(nums)
@@ -169,6 +232,7 @@ class SudokuGenerator:
                 self.board[r][c] = nums[i]
                 i += 1
 
+
     '''
         DO NOT CHANGE
         Provided for students
@@ -177,14 +241,15 @@ class SudokuGenerator:
     	Parameters: None
     	Return: None
         '''
-
     def fill_values(self):
         self.fill_diagonal()
         self.fill_remaining(0, self.box_length)
 
+
     def fill_di(self):
         for i in range(0, self.row_length, 3):
             self.fill_box(i, i)
+
 
     def fill_rest(self):
         for row in range(self.row_length):
@@ -199,9 +264,11 @@ class SudokuGenerator:
                     return False
         return True
 
+
     def fill_board(self):
         self.fill_di()
         self.fill_rest()
+
 
     '''
         Removes the appropriate number of cells from the board
@@ -222,6 +289,8 @@ class SudokuGenerator:
             if self.board[row][col] != 0:
                 self.board[row][col] = 0
                 count -= 1
+
+
 '''
 DO NOT CHANGE
 Provided for students
@@ -244,6 +313,7 @@ def generate_sudoku(size, removed):
     sudoku.remove_cells()
     board = sudoku.get_board()
     return board
+
 
 def generate(size, removed):
     generator = SudokuGenerator(size, removed)
